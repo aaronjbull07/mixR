@@ -1,0 +1,9 @@
+filename: {packagefilename}.packageinfo
+0: name
+1: date created
+2: time created
+3: author
+4: module names (modulecodename)(comma seperated)
+{Everything else after}: description text
+-----------------------
+packages will be stored in a folder with the packages code name

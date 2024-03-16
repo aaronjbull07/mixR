@@ -1,0 +1,27 @@
+filename: {modulecodename}.moduleclass
+or {modulecodename}.modulemenu
+or {modulecodename}.modulegame
+or {modulecodename}.moduleutil
+0: name
+1: date created
+2: time created
+3: author
+4: code names of contents
+5: overridable contents (codenames) (more important than individual function data)
+6: required contents (codenames) (more important than individual function data)
+for each code piece:
+begin repeat:
+{=={
+0: codename
+1: required functions (in form {packagecodename}/{modulecodename(wildcards allowed)}/{functioncodename(wildcards allowed)}) OR (in form just codename and local)
+2: required assets (in form {packagecodename}/{assetcodename(wildcards allowed)}) OR (in form just codename and local)
+3: overridable (boolean)
+4: incompatable package functions (in form {packagecodename}/{modulecodename(wildcards allowed)}/{functioncodename(wildcards allowed)}) OR (in form just codename and local)  (comma seperated)
+{-{
+{code to be run in the master script goes here (optional)}
+}-}
+{--{
+{code goes here}
+}--}
+}==}
+end repeat

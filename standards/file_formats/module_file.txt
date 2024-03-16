@@ -1,0 +1,10 @@
+filename: {modulecodename}.moduleinfo
+0: name
+1: date created
+2: time created
+3: author
+4: required functions (in form {packagecodename}/{modulecodename(wildcards allowed)}/{functioncodename(wildcards allowed)}) OR (in form just codename and local) (more important than module files)
+5: overridable functions (codenames) (more important than module files)
+6: required assets (in form {packagecodename}/{assetcodename(wildcards allowed)}) OR (in form just codename and local) (more important than module files)
+7: overridable assets (codenames) (more important than module files)
+8: incompatable package functions (in form {packagecodename}/{modulecodename(wildcards allowed)}/{functioncodename(wildcards allowed)}) (more important than module files) (more important than module files) (comma seperated)
