@@ -9,26 +9,37 @@ public:
     void readFile(string path) {
         ifstream readerFile(path);
         string newline;
+        int numOfLines = 0;
+        while (getline(readerFile, newline)) {
+            numOfLines++;
+        }
+        readerFile.close();
+        readerFile = ifstream(path);
+        lines = new string[numOfLines];
         int i = 0;
         while (getline(readerFile, newline)) {
-            lines[i++] = newline;
+            lines[i++] = newline;//not concatted
         }
+        cout << "GOT HERE3\n";
+        cout << lines[0];
+        cout << "GOT HERE4\n";
         readerFile.close();
         name = lines[0];
         author = lines[1];
-        dateModified = lines[2];
-        timeModified = lines[3];
+        dateCreated = lines[2];
+        timeCreated = lines[3];
+        cout << "\nGOT HERE5\n";
     }
     string* zeroDTo1d(string zeroD) {
         int numOfArrayEntries = 0;
-        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+        for (int i = 0; i < zeroD.length(); i++) {
             if (zeroD[i] == ',') {
                 numOfArrayEntries++;
             }
         }
-        string* outarr = new string[numOfArrayEntries];
+        string* outarr = new string[numOfArrayEntries + 1];
         int x = 0;
-        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+        for (int i = 0; i < zeroD.length(); i++) {
             if (zeroD[i] == ',') {
                 x++;
             }
@@ -40,14 +51,20 @@ public:
     }
     string* zeroDTo1d(string zeroD, int *length) {
         int numOfArrayEntries = 0;
-        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+        cout << "GOT HERE9\n";
+        cout << zeroD << "\n";
+        cout << "GOT HERE9.5\n";
+
+        for (int i = 0; i < zeroD.length(); i++) {
+            cout << "GOT HERE10\n" << zeroD[i] << "\n";
             if (zeroD[i] == ',') {
                 numOfArrayEntries++;
             }
         }
-        string* outarr = new string[numOfArrayEntries];
+        cout << "GOT HERE11\n";
+        string* outarr = new string[numOfArrayEntries + 1];
         int x = 0;
-        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+        for (int i = 0; i < zeroD.length(); i++) {
             if (zeroD[i] == ',') {
                 x++;
             }
@@ -60,8 +77,8 @@ public:
     }
     string name;
     string author;
-    string dateModified;
-    string timeModified;
+    string dateCreated;
+    string timeCreated;
 };
 class codeFunction {
 public:
@@ -140,7 +157,7 @@ public:
             }
             startpos += codeLength + 2;
             curpos = startpos;
-            int codeLength = 0;
+            codeLength = 0;
             if (lines[curpos] == "{--{") {
                 startpos = curpos;
                 while (lines[startpos + codeLength + 1] != "}--}") {
@@ -202,16 +219,20 @@ public:
     //they can mix and match individual functions (for that is the whole point of overrides) so therefore we need to also when we enter into a module array we need to do the same checks for requirements and then we need to enter each sub-module and check, once again, recursively (or sequentially idk the word) for the requirements then by doing this, we should create a string array of normalised ids (function/module/functioncodename), to get all requirements, then we can present this to the user or try to solve automatically, then we can recalculate every time changes are made, dont try to optimise something like that to only remove parts of it as that would require keeping track of where they are coming from and  will be much more complex than just running the code again
 };
 class package : public dataFile {
-private:
-    string moduleNames0d;
 public:
+    string moduleNames0d;
     module* modules;
     string* moduleNames;
     void initPackage(string packageName) {
+        cout << "GOT HERE2\n";
         readFile("./" + packageName + "./" + packageName + ".packageinfo");
         moduleNames0d = lines[4];
         int numOfModules;
+        cout << "GOT HERE6\n";
+        cout << moduleNames0d << "\n";
+        cout << "GOT HERE7\n";
         moduleNames = zeroDTo1d(moduleNames0d, &numOfModules);
+        cout << "GOT HERE8\n";
         modules = new module[numOfModules];
         for (int i = 0; i < numOfModules; i++) {
             modules[i].initModule(packageName, moduleNames[i]);
@@ -221,12 +242,37 @@ public:
 class packageArray {
 public:
     package* packages;
+    void createPackages(string* packageNames, int *length) {
+        int i = 0;
+        while (!packageNames[i].empty()) {
+            i++;
+        }
+        packages = new package[i];
+        i = 0;
+        while (!packageNames[i].empty()) {
+            cout << "GOT HERE1\n";
+            packages[i].initPackage(packageNames[i]);
+            i++;
+        }
+        *length = i;
+    }
     void createPackages(string* packageNames) {
         int i = 0;
         while (!packageNames[i].empty()) {
             i++;
         }
         packages = new package[i];
+        i = 0;
+        while (!packageNames[i].empty()) {
+            packages[i].initPackage(packageNames[i]);
+            i++;
+        }
+    }
+    void createPackages(string packageNamesString, int *length) {
+        int numOfPackages;
+        string* packageNames = zeroDTo1d(packageNamesString, &numOfPackages);
+        packages = new package[numOfPackages];
+        *length = numOfPackages;
         int i = 0;
         while (!packageNames[i].empty()) {
             packages[i].initPackage(packageNames[i]);
@@ -245,14 +291,14 @@ public:
     }
     string* zeroDTo1d(string zeroD, int* length) {
         int numOfArrayEntries = 0;
-        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+        for (int i = 0; i < zeroD.length(); i++) {
             if (zeroD[i] == ',') {
                 numOfArrayEntries++;
             }
         }
-        string* outarr = new string[numOfArrayEntries];
+        string* outarr = new string[numOfArrayEntries + 1];
         int x = 0;
-        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+        for (int i = 0; i < zeroD.length(); i++) {
             if (zeroD[i] == ',') {
                 x++;
             }
@@ -264,7 +310,48 @@ public:
         return outarr;
     }
 };
+string** getAllModules() {
+    ifstream readerFile("./package_list.txt");
+    int packages = 0;
+    string newline;
+    while (getline(readerFile, newline)) {
+        if (!newline.empty()) {
+            packages++;
+        }
+    }
+    readerFile.close();
+    string* packageList = new string[packages];
+    readerFile = ifstream("./package_list.txt");
+    int i = 0;
+    while (getline(readerFile, newline) && i <= packages) {
+        if (!newline.empty()) {
+            packageList[i++] = newline;
+        }
+    }
+    packageArray packageArr;
+    int numOfPackages = 0;
+    packageArr.createPackages(packageList, &numOfPackages);
+    string* packageName = new string[numOfPackages];
+    string* packageDateCreated = new string[numOfPackages];
+    string* packageTimeCreated = new string[numOfPackages];
+    string* packageAuthor = new string[numOfPackages];
+    string* packageModuleNames = new string[numOfPackages];
+    for (int x = 0; x < numOfPackages; x++) {
+        packageName[x] = packageArr.packages[x].name;
+        packageDateCreated[x] = packageArr.packages[x].dateCreated;
+        packageTimeCreated[x] = packageArr.packages[x].timeCreated;
+        packageAuthor[x] = packageArr.packages[x].author;
+        packageModuleNames[x] = packageArr.packages[x].moduleNames0d;
+    }
+    string** outarr = new string*[5]{packageName, packageDateCreated, packageTimeCreated, packageAuthor, packageModuleNames};
+    return outarr;
+}
 int main()
 {
-    std::cout << "Hello World!\n";
+    string** moduleDetails = getAllModules();
+    int i = 0;
+    while (!moduleDetails[i][0].empty()) {
+        cout << "name: " << moduleDetails[i][0] << " Date Created: " << moduleDetails[i][1] << " Time Created: " << moduleDetails[i][2] << " Author: " << moduleDetails[i][3] << " Module Names: " << moduleDetails[i][4] << "\n";
+        i++;//I think the moduleDetails are empty and so it gives weird return values
+    }
 }
