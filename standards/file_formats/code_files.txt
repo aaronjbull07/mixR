@@ -8,13 +8,13 @@ or {modulecodename}.moduleutil
 3: author
 4: code names of contents
 5: overridable contents (codenames) (more important than individual function data)
-6: required contents (codenames) (more important than individual function data)
+6: required contents (codenames) (more important than individual function data)//should seperate assets and functions or not require assets? Maybe require an asset of the name to exist
 for each code piece:
 begin repeat:
 {=={
 0: codename
 1: required functions (in form {packagecodename}/{modulecodename(wildcards allowed)}/{functioncodename(wildcards allowed)}) OR (in form just codename and local)
-2: required assets (in form {packagecodename}/{assetcodename(wildcards allowed)}) OR (in form just codename and local)
+2: required assets (in form {packagecodename}/{assetcodename(wildcards allowed)}) OR (in form just codename and local)//Needs an asset prefix if not already made
 3: overridable (boolean)
 4: incompatable package functions (in form {packagecodename}/{modulecodename(wildcards allowed)}/{functioncodename(wildcards allowed)}) OR (in form just codename and local)  (comma seperated)
 {-{

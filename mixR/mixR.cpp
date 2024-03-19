@@ -20,27 +20,39 @@ public:
         timeModified = lines[3];
     }
     string* zeroDTo1d(string zeroD) {
-        string* outarr;
+        int numOfArrayEntries = 0;
+        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+            if (zeroD[i] == ',') {
+                numOfArrayEntries++;
+            }
+        }
+        string* outarr = new string[numOfArrayEntries];
         int x = 0;
         for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
             if (zeroD[i] == ',') {
                 x++;
             }
             else {
-                outarr[x] += zeroD[i];//will almost certainly fail as i need to concat this
+                outarr[x] += zeroD[i];
             }
         }
         return outarr;
     }
     string* zeroDTo1d(string zeroD, int *length) {
-        string* outarr;
+        int numOfArrayEntries = 0;
+        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+            if (zeroD[i] == ',') {
+                numOfArrayEntries++;
+            }
+        }
+        string* outarr = new string[numOfArrayEntries];
         int x = 0;
         for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
             if (zeroD[i] == ',') {
                 x++;
             }
             else {
-                outarr[x] += zeroD[i];//will almost certainly fail as i need to concat this
+                outarr[x] += zeroD[i];
             }
         }
         *length = x;
@@ -52,10 +64,6 @@ public:
     string timeModified;
 };
 class codeFunction {
-private:
-    string requiredFunctions0d;//unused
-    string requiredAssets0d;//unused
-    string incompatableFunctions0d;//unused
 public:
     string codeName;
     string* requiredFunctions;
@@ -236,14 +244,20 @@ public:
         }
     }
     string* zeroDTo1d(string zeroD, int* length) {
-        string* outarr;
+        int numOfArrayEntries = 0;
+        for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
+            if (zeroD[i] == ',') {
+                numOfArrayEntries++;
+            }
+        }
+        string* outarr = new string[numOfArrayEntries];
         int x = 0;
         for (int i = 0; i < sizeof(zeroD) / sizeof(char); i++) {
             if (zeroD[i] == ',') {
                 x++;
             }
             else {
-                outarr[x] += zeroD[i];//will almost certainly fail as i need to concat this
+                outarr[x] += zeroD[i];
             }
         }
         *length = x;
