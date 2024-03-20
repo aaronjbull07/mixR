@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 using namespace std;
 class dataFile {
 protected:
@@ -20,15 +21,11 @@ public:
         while (getline(readerFile, newline)) {
             lines[i++] = newline;//not concatted
         }
-        cout << "GOT HERE3\n";
-        cout << lines[0];
-        cout << "GOT HERE4\n";
         readerFile.close();
         name = lines[0];
         author = lines[1];
         dateCreated = lines[2];
         timeCreated = lines[3];
-        cout << "\nGOT HERE5\n";
     }
     string* zeroDTo1d(string zeroD) {
         int numOfArrayEntries = 0;
@@ -51,17 +48,11 @@ public:
     }
     string* zeroDTo1d(string zeroD, int *length) {
         int numOfArrayEntries = 0;
-        cout << "GOT HERE9\n";
-        cout << zeroD << "\n";
-        cout << "GOT HERE9.5\n";
-
         for (int i = 0; i < zeroD.length(); i++) {
-            cout << "GOT HERE10\n" << zeroD[i] << "\n";
             if (zeroD[i] == ',') {
                 numOfArrayEntries++;
             }
         }
-        cout << "GOT HERE11\n";
         string* outarr = new string[numOfArrayEntries + 1];
         int x = 0;
         for (int i = 0; i < zeroD.length(); i++) {
@@ -224,15 +215,10 @@ public:
     module* modules;
     string* moduleNames;
     void initPackage(string packageName) {
-        cout << "GOT HERE2\n";
         readFile("./" + packageName + "./" + packageName + ".packageinfo");
         moduleNames0d = lines[4];
         int numOfModules;
-        cout << "GOT HERE6\n";
-        cout << moduleNames0d << "\n";
-        cout << "GOT HERE7\n";
         moduleNames = zeroDTo1d(moduleNames0d, &numOfModules);
-        cout << "GOT HERE8\n";
         modules = new module[numOfModules];
         for (int i = 0; i < numOfModules; i++) {
             modules[i].initModule(packageName, moduleNames[i]);
@@ -250,7 +236,6 @@ public:
         packages = new package[i];
         i = 0;
         while (!packageNames[i].empty()) {
-            cout << "GOT HERE1\n";
             packages[i].initPackage(packageNames[i]);
             i++;
         }
@@ -310,7 +295,7 @@ public:
         return outarr;
     }
 };
-string** getAllModules() {
+vector< vector <string> > getAllModules() {
     ifstream readerFile("./package_list.txt");
     int packages = 0;
     string newline;
@@ -331,27 +316,31 @@ string** getAllModules() {
     packageArray packageArr;
     int numOfPackages = 0;
     packageArr.createPackages(packageList, &numOfPackages);
-    string* packageName = new string[numOfPackages];
-    string* packageDateCreated = new string[numOfPackages];
-    string* packageTimeCreated = new string[numOfPackages];
-    string* packageAuthor = new string[numOfPackages];
-    string* packageModuleNames = new string[numOfPackages];
+    vector< string > packageName;
+    vector< string > packageDateCreated;
+    vector< string > packageTimeCreated;
+    vector< string > packageAuthor;
+    vector< string > packageModuleNames;
+    vector< vector<string> > outarr;
     for (int x = 0; x < numOfPackages; x++) {
-        packageName[x] = packageArr.packages[x].name;
-        packageDateCreated[x] = packageArr.packages[x].dateCreated;
-        packageTimeCreated[x] = packageArr.packages[x].timeCreated;
-        packageAuthor[x] = packageArr.packages[x].author;
-        packageModuleNames[x] = packageArr.packages[x].moduleNames0d;
+        vector< string > currentPackage;
+        currentPackage.push_back(packageArr.packages[x].name);
+        currentPackage.push_back(packageArr.packages[x].dateCreated);
+        currentPackage.push_back(packageArr.packages[x].timeCreated);
+        currentPackage.push_back(packageArr.packages[x].author);
+        currentPackage.push_back(packageArr.packages[x].moduleNames0d);
+        outarr.push_back(currentPackage);
     }
-    string** outarr = new string*[5]{packageName, packageDateCreated, packageTimeCreated, packageAuthor, packageModuleNames};
+//    cout << "packageName: " << outarr[0][0] << " packageDateCreated: " << outarr[0][1] << " packageTimeCreated: " << outarr[0][2] << " packageAuthor: " << outarr[0][3] << " packageModulesNames: " << outarr[0][4] << "\n\n";
     return outarr;
 }
 int main()
 {
-    string** moduleDetails = getAllModules();
+    vector< vector <string> > moduleDetails = getAllModules();
     int i = 0;
-    while (!moduleDetails[i][0].empty()) {
+    cout << "packageName: " << moduleDetails[0][0] << " packageDateCreated: " << moduleDetails[0][1] << " packageTimeCreated: " << moduleDetails[0][2] << " packageAuthor: " << moduleDetails[0][3] << " packageModulesNames: " << moduleDetails[0][4] << "\n\n";
+    while (i < moduleDetails.size()) {
         cout << "name: " << moduleDetails[i][0] << " Date Created: " << moduleDetails[i][1] << " Time Created: " << moduleDetails[i][2] << " Author: " << moduleDetails[i][3] << " Module Names: " << moduleDetails[i][4] << "\n";
-        i++;//I think the moduleDetails are empty and so it gives weird return values
+        i++;
     }
 }
