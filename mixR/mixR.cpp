@@ -46,7 +46,7 @@ public:
         }
         return outarr;
     }
-    string* zeroDTo1d(string zeroD, int *length) {
+    string* zeroDTo1d(string zeroD, int* length) {
         int numOfArrayEntries = 0;
         for (int i = 0; i < zeroD.length(); i++) {
             if (zeroD[i] == ',') {
@@ -228,7 +228,7 @@ public:
 class packageArray {
 public:
     package* packages;
-    void createPackages(string* packageNames, int *length) {
+    void createPackages(string* packageNames, int* length) {
         int i = 0;
         while (!packageNames[i].empty()) {
             i++;
@@ -253,7 +253,7 @@ public:
             i++;
         }
     }
-    void createPackages(string packageNamesString, int *length) {
+    void createPackages(string packageNamesString, int* length) {
         int numOfPackages;
         string* packageNames = zeroDTo1d(packageNamesString, &numOfPackages);
         packages = new package[numOfPackages];
@@ -331,7 +331,7 @@ vector< vector <string> > getAllModules() {
         currentPackage.push_back(packageArr.packages[x].moduleNames0d);
         outarr.push_back(currentPackage);
     }
-//    cout << "packageName: " << outarr[0][0] << " packageDateCreated: " << outarr[0][1] << " packageTimeCreated: " << outarr[0][2] << " packageAuthor: " << outarr[0][3] << " packageModulesNames: " << outarr[0][4] << "\n\n";
+    //    cout << "packageName: " << outarr[0][0] << " packageDateCreated: " << outarr[0][1] << " packageTimeCreated: " << outarr[0][2] << " packageAuthor: " << outarr[0][3] << " packageModulesNames: " << outarr[0][4] << "\n\n";
     return outarr;
 }
 int main()
