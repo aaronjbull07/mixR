@@ -225,22 +225,28 @@ public:
         }
     }
 };
+//int lengthOfStrArr(string* arr) {
+//    int totalsize = sizeof(arr);
+//    int runningsize = 0;
+//    int length = 0;
+//    while (runningsize < totalsize) {
+//        runningsize += sizeof(arr[length++]);
+//    }
+//    return length;
+//}
 class packageArray {
 public:
     package* packages;
-    void createPackages(string* packageNames, int* length) {
+    void createPackages(vector< string > packageNames, int* length) {
+        packages = new package[packageNames.size()];
         int i = 0;
-        while (!packageNames[i].empty()) {
-            i++;
-        }
-        packages = new package[i];
-        i = 0;
-        while (!packageNames[i].empty()) {
+//        int packageNamesLength = lengthOfStrArr(packageNames);
+        while (i < packageNames.size()) {//make it a vector not arr as it overreferences
             packages[i].initPackage(packageNames[i]);
             i++;
         }
         *length = i;
-    }
+    }//replace all other createPackages with this system
     void createPackages(string* packageNames) {
         int i = 0;
         while (!packageNames[i].empty()) {
@@ -296,21 +302,13 @@ public:
     }
 };
 vector< vector <string> > getAllModules() {
-    ifstream readerFile("./package_list.txt");
-    int packages = 0;
     string newline;
+    vector< string > packageList;
+    ifstream readerFile("./package_list.txt");
+    int i = 0;
     while (getline(readerFile, newline)) {
         if (!newline.empty()) {
-            packages++;
-        }
-    }
-    readerFile.close();
-    string* packageList = new string[packages];
-    readerFile = ifstream("./package_list.txt");
-    int i = 0;
-    while (getline(readerFile, newline) && i <= packages) {
-        if (!newline.empty()) {
-            packageList[i++] = newline;
+            packageList.push_back(newline);
         }
     }
     packageArray packageArr;
